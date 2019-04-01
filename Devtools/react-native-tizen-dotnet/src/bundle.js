@@ -1,30 +1,24 @@
 // @flow
 
 import fse from 'fs-extra';
-import path from 'path';
-import minimist from 'minimist';
-import { exec, execSync } from 'child_process';
+import { execSync } from 'child_process';
 
-import { preBuild } from './prebuild';
+import { format, config, appPath, _log  } from './utlis';
+const llog = str => _log('Bundle','INFO', str);
 
-const argv = minimist(process.argv.slice(2));
+(() => {
 
-const packager = async() => {
-
-    let command = argv._[0];
-    console.log(`command:${command}`);
-
-    let app = await preBuild();
-    const appPath = app.path;
-    const packageDir = path.normalize(`${appPath}/Tizen/shared/res`);
-    console.log(`[packager] appPath: ${appPath}`);
+    //let app = await preBuild();
+    //const appPath = app.path;
+    const packageDir = format(`${appPath}/Tizen/shared/res`);
+    llog(`Output Bundle Path: ${packageDir}`);
 
     //bundle: '        --dev false'
-    const RN = path.normalize('/node_modules/react-native/packager/');
-    replaceTizen(path.normalize(`${appPath}${RN}defaults.js`), /windows/g, 'tizen');
-    replaceTizen(path.normalize(`${appPath}${RN}src/node-haste/lib/getPlatformExtension.js`), /web/g, 'tizen');
+    const RN = format(`${appPath}/node_modules/react-native/packager/`);
 
-    replaceTizen(path.normalize(`${appPath}${RN}defaults.js`), /react-native-tizen/g, 'react-native-tizen-dotnet');
+    replaceTizen(format(`${RN}defaults.js`), /windows/g, 'tizen');
+    replaceTizen(format(`${RN}src/node-haste/lib/getPlatformExtension.js`), /web/g, 'tizen');
+    replaceTizen(format(`${RN}defaults.js`), /react-native-tizen/g, 'react-native-tizen-dotnet');
 
     function replaceTizen(file, reg, key) {
         let data = fse.readFileSync(file, 'utf8');
@@ -32,26 +26,27 @@ const packager = async() => {
         fse.writeFileSync(file, result, 'utf8');
     }
 
-    function checkCommand(cmd) {
+    function mode(cmd) {
         if (!cmd) {
             return false;
         }
         if (cmd.toLowerCase() === 'dev') {
             return true;
         }
-        return false;
-    }
 
+        return config.mode === 'Debug'? 'true' : 'false';
+    }
+    llog(`React Native will Bundle file with Platfrom: tizen`);
+    
     //make bundle comand
     const SPACE = ' ';
-    let arg1 = 'node' + SPACE + path.normalize(`${appPath}/node_modules/react-native/local-cli/cli.js`) + SPACE + 'bundle --entry-file index.tizen.js';
-    let arg2 = ' --bundle-output' + SPACE + path.normalize(`${packageDir}/index.tizen.bundle`);
-    let arg3 = ' --platform tizen --assets-dest' + SPACE + path.normalize(`${packageDir}/assets/`);
-    let arg4 = ' --dev ' + checkCommand(command);
+    let arg1 = 'node' + SPACE + format(`${appPath}/node_modules/react-native/local-cli/cli.js`) + SPACE + 'bundle --entry-file index.tizen.js';
+    let arg2 = ' --bundle-output' + SPACE + format(`${packageDir}/index.tizen.bundle`);
+    let arg3 = ' --platform tizen --assets-dest' + SPACE + format(`${packageDir}/assets/`);
+    let arg4 = ' --dev ' + mode();
 
     execSync(arg1 + arg2 + arg3 + arg4, { stdio: [0, 1, 2] });
 
-};
-packager();
+})();
 
-module.exports = packager;
+//module.exports = packager;

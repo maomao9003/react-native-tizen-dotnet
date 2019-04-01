@@ -1,12 +1,13 @@
-// @flow
-import minimist from 'minimist';
 import { launchTarget } from 'tizen-tv-dev-cli';
-import path from 'path';
+import { config, format, _log } from './utlis';
 
-const argv = minimist(process.argv.slice(2));
+const llog = str => _log('Launch','INFO', str);
 
 function targetIP() {
-    return argv._[0];
+    if (!config.tvip) {
+        throw('[Error] Can not launch without remote TV IP address...');
+    }
+    return config.tvip;
 };
 
 function tpkPath(flag) {
@@ -16,9 +17,12 @@ function tpkPath(flag) {
     } else {
         mode = 'Debug';
     }
-    console.log(`path:${mode}`);
-    return path.normalize(`/Tizen/bin/${mode}/netcoreapp2.0/`);
-}
-//console.log(`command:${command}`);
+    let appPath = format(`/Tizen/bin/${mode}/netcoreapp2.0/`);
+    llog(`Mode: ${mode}`);
+    llog(`Catch App file from path:${appPath}`);
 
-launchTarget.handleCommand(targetIP(), tpkPath(argv._[1]));
+    return appPath;
+}
+
+
+launchTarget.handleCommand(targetIP(), tpkPath(config.mode));

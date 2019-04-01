@@ -1,53 +1,35 @@
 // @flow
 import fse from 'fs-extra';
-import spawn from 'cross-spawn';
 import crypto from 'crypto';
-import minimist from 'minimist';
-import path from 'path';
-import { exec, execSync } from 'child_process';
+import { execSync } from 'child_process';
 
-import { preBuild } from './prebuild';
+import { format, config, appPath, _log } from './utlis';
+const llog = str => _log('Package','INFO', str);
 
-const argv = minimist(process.argv.slice(2));
+(function packagerBuild() {
 
-async function packagerBuild() {
+    llog(`Command: build project with dotnet SDK`);
 
-    let command = argv._[0];
-    console.log(`command:${command}`);
-
-    let app = await preBuild();
-    const appPath = app.path;
-    const appName = app.name;
-    console.log(`[packagerBuild] appPath: ${appPath}`);
+    const dotnetPath = `${appPath}/Tizen`;
+    llog(`Tizen dotnet Project Path: ${dotnetPath}`);
 
     //check tizen.dll hash
-    checkHash(fse.readFileSync(path.normalize(`${appPath}/Tizen/ReactNativeTizen.dll`)));
+    checkHash(fse.readFileSync(format(`${appPath}/Tizen/ReactNativeTizen.dll`)));
 
     function checkHash(data) {
         let sha1 = crypto.createHash('sha1');
         sha1.update(data);
         let hash = sha1.digest('hex');
-        console.log(`local ReactNativeTizen.dll sha1 hash check: ${hash}`);
-        console.log(`The latest version of ReactNativeTizen.dll is e295ff62c9aa2bd0cc8aca188e206e3b2a82f985`);
+        llog(`local ReactNativeTizen.dll sha1 hash check: ${hash}`);
+        llog(`The latest version of ReactNativeTizen.dll is e295ff62c9aa2bd0cc8aca188e206e3b2a82f985`);
     }
 
-    function checkCommand(cmd) {
-        if (!cmd) {
-            return false;
-        }
-        if (cmd.toLowerCase() === 'release') {
-            return true;
-        }
-        return false;
-    }
-
-    let mode = checkCommand(command) ? 'Release' : 'Debug';
+    let {mode} = config;
 
     //dotnet build
     const SPACE = ' ';
-    execSync('dotnet restore ' + SPACE + path.normalize(`${appPath}/Tizen/`), { stdio: [0, 1, 2] });
+    execSync('dotnet restore ' + SPACE + format(`${dotnetPath}`), { stdio: [0, 1, 2] });
 
-    execSync('dotnet build -c ' + mode + SPACE + path.normalize(`${appPath}/Tizen/`), { stdio: [0, 1, 2] });
+    execSync('dotnet build -c ' + mode + SPACE +format(`${dotnetPath}`), { stdio: [0, 1, 2] });
 
-};
-packagerBuild();
+})();
