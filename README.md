@@ -28,13 +28,13 @@ react-native-tizen-dotnet
 
 ## Getting Started
 -   $ ```sudo npm i -g create-react-native-tizen-app```
--   $ ```create-create-native-tizen-app myTizenApp```
+-   $ ```create-react-native-tizen-app myTizenApp```
 -   $ ```cd myTizenApp```
 -   $ ```vim package.json``` //change "tvip": "192.168.100.1" to your Tv IP
--   $ ```yarn bundle``` // for release mode
--   $ ```yarn bundle --dev``` // for dev mode, js file not ugly
--   $ ```yarn package``` // packaging tpk for Tizen
--   $ ```yarn launch``` // launch tpk to Tizen TV , Before launch you need run shell on tizen board
+-   $ ```yarn bundle``` // for release mode (npm run bundle)
+-   $ ```yarn bundle --dev``` // for dev mode, js file not ugly (npm run bundle --dev)
+-   $ ```yarn package``` // packaging tpk for Tizen (npm run package)
+-   $ ```yarn launch``` // launch tpk to Tizen TV , Before launch you need run shell on tizen board (npm run launch)
 
 ## Connect to TV
 Refer to this website, **Enable Developer Mode on the TV**:  
