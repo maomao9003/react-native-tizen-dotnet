@@ -62,12 +62,10 @@ https://github.com/npm/npm/issues/16991
         appPackage.scripts = {
             server: 'node node_modules/react-native/local-cli/cli.js start',
             test: 'node node_modules/jest/bin/jest.js --watch',
-            package: 'react-native-tizen package $npm_package_config_mode',
+            package: 'react-native-tizen package',
             bundle: 'react-native-tizen bundle',
             //dotnet: 'react-native-tizen dotnet',
-            launch: 'react-native-tizen launch $npm_package_config_tvip $npm_package_config_mode'
-                //packageDebug:'yarn bundle -- dev; yarn dotnet -- debug; yarn package',
-                //packageRelease: 'yarn bundle; yarn dotnet -- release; yarn package',
+            launch: 'react-native-tizen launch'
         };
 
         appPackage.jest = {};
