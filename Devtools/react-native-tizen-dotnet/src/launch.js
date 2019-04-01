@@ -1,6 +1,7 @@
 import { launchTarget } from 'tizen-tv-dev-cli';
-import { config, format } from './utlis';
+import { config, format, _log } from './utlis';
 
+const llog = str => _log('Launch','INFO', str);
 
 function targetIP() {
     if (!config.tvip) {
@@ -17,8 +18,9 @@ function tpkPath(flag) {
         mode = 'Debug';
     }
     let appPath = format(`/Tizen/bin/${mode}/netcoreapp2.0/`);
-    console.log(`[Info] Mode: ${mode}`);
-    console.log(`[Info] Catch App file from path:${appPath}`)
+    llog(`Mode: ${mode}`);
+    llog(`Catch App file from path:${appPath}`);
+
     return appPath;
 }
 

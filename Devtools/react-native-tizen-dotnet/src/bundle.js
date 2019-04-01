@@ -1,22 +1,17 @@
 // @flow
 
 import fse from 'fs-extra';
-import minimist from 'minimist';
 import { execSync } from 'child_process';
 
-import { format, config, appPath  } from './utlis';
-
-const argv = minimist(process.argv.slice(2));
+import { format, config, appPath, _log  } from './utlis';
+const llog = str => _log('Bundle','INFO', str);
 
 (() => {
-
-    let command = argv._[0];
-    console.log(`command:${command}`);
 
     //let app = await preBuild();
     //const appPath = app.path;
     const packageDir = format(`${appPath}/Tizen/shared/res`);
-    console.log(`[packager] appPath: ${appPath}`);
+    llog(`Output Bundle Path: ${packageDir}`);
 
     //bundle: '        --dev false'
     const RN = format(`${appPath}/node_modules/react-native/packager/`);
@@ -41,7 +36,8 @@ const argv = minimist(process.argv.slice(2));
 
         return config.mode === 'Debug'? 'true' : 'false';
     }
-
+    llog(`React Native will Bundle file with Platfrom: tizen`);
+    
     //make bundle comand
     const SPACE = ' ';
     let arg1 = 'node' + SPACE + format(`${appPath}/node_modules/react-native/local-cli/cli.js`) + SPACE + 'bundle --entry-file index.tizen.js';
