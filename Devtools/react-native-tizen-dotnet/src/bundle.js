@@ -16,9 +16,10 @@ const llog = str => _log('Bundle','INFO', str);
     //bundle: '        --dev false'
     const RN = format(`${appPath}/node_modules/react-native/packager/`);
 
+    replaceTizen(format(`${RN}defaults.js`), /react-native-windows/g, 'react-native-tizen-dotnet');
     replaceTizen(format(`${RN}defaults.js`), /windows/g, 'tizen');
     replaceTizen(format(`${RN}src/node-haste/lib/getPlatformExtension.js`), /web/g, 'tizen');
-    replaceTizen(format(`${RN}defaults.js`), /react-native-tizen/g, 'react-native-tizen-dotnet');
+    
 
     function replaceTizen(file, reg, key) {
         let data = fse.readFileSync(file, 'utf8');
