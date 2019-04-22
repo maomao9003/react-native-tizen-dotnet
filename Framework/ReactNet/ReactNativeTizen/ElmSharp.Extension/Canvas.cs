@@ -25,7 +25,7 @@ namespace ReactNativeTizen.ElmSharp.Extension
         /// <param name="parent">Parent of this instance.</param>
         public Canvas(EvasObject parent) : base(parent)
         {
-            BackgroundColor = Color.Gray;
+            BackgroundColor = Color.Transparent;
 
             _children.CollectionChanged += (o, e) =>
             {
