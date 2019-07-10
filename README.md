@@ -25,7 +25,6 @@ react-native-tizen-dotnet
 
 ![Framework](./Docs/img/Framework.PNG)
 
-
 ## Getting Started
 -   $ ```sudo npm i -g create-react-native-tizen-app```
 -   $ ```create-react-native-tizen-app myTizenApp```
@@ -34,10 +33,25 @@ react-native-tizen-dotnet
 -   $ ```yarn bundle``` // for release mode (npm run bundle)
 -   $ ```yarn bundle --dev``` // for dev mode, js file not ugly (npm run bundle --dev)
 -   $ ```yarn package``` // packaging tpk for Tizen (npm run package)
--   $ ```yarn launch``` // launch tpk to Tizen TV , Before launch you need run shell on tizen board (npm run launch)
+-   $ ```yarn launch``` // launch tpk to Tizen TV , Before launch you [Enable Developer Mode on the TV](#Connect-to-TV) to TV) first (npm run launch)
 
 ## Connect to TV
 Refer to this website, **Enable Developer Mode on the TV**:  
 https://developer.samsung.com/tv/develop/getting-started/using-sdk/tv-device
 
+## Debug
+`react-native-tizen-dotnet` support same debugging way with `react-naitve`. (likes
+`Hot Reloading`, `JS Remote Debugging` and others debugging way of ReactNative)
 
+To enable debugging, you need follow these steps:
+1. Modify `package.json` in your app to config debug mode.
+   * Set `mode` of `config` as *Debug*(Default setting is *Release*)
+2. Launch debug server in your PC
+   ``` shell
+   # Server will running with 8081 port
+   npm run server
+   ```
+3. Package your app and launch on TV(App will try to connect debug server automatically)
+4. Press `Red`/`A` key on remote controller to set debug items
+   * If your app can't connect to debug server, you can set host IP here
+     > If `input panel` is hard to use, suggest using real keybroad
