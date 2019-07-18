@@ -26,6 +26,10 @@ react-native-tizen-dotnet
 ![Framework](./Docs/img/Framework.PNG)
 
 ## Getting Started
+### Installing dependencies
+-  [Node.js](https://nodejs.org/en/download/)
+-  [.NET Core SDK](https://dotnet.microsoft.com/download)
+### Steps(Ubuntu env. as example)
 -   $ ```sudo npm i -g create-react-native-tizen-app```
 -   $ ```create-react-native-tizen-app myTizenApp```
 -   $ ```cd myTizenApp```
