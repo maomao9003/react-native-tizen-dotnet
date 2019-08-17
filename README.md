@@ -43,6 +43,15 @@ react-native-tizen-dotnet
 Refer to this website, **Enable Developer Mode on the TV**:  
 https://developer.samsung.com/tv/develop/getting-started/using-sdk/tv-device
 
+## Running in emulator
+react-native-tizen-dotnet depend on C++ libraries JSCore and yoga. And emulator has diffrent CPU Arch with TV device. So we provide diffrent C++ libraries(arm & i586).  
+When create react-native-tizen-dotnet project, the arm based libraries provided defaultly in `your-project\Tizen\lib\`.  
+If you want running your app in emulator, you can just replace them with i586 libraries. i586 libraries here:  
+```
+Framework/ReactNet/JSCore/libJSCore_i586.so
+Framework/ReactNet/yoga/libyoga_i586.so
+```
+
 ## Debug
 `react-native-tizen-dotnet` support same debugging way with `react-naitve`. (likes
 `Hot Reloading`, `JS Remote Debugging` and others debugging way of ReactNative)
