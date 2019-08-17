@@ -1,0 +1,9 @@
+node_modules/
+.expo/
+npm-debug.*
+bin/
+lib/
+obj/
+shared/
+*.dll
+yarn*
